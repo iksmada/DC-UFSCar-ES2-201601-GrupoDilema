@@ -20,6 +20,8 @@ import net.sf.jabref.model.entry.EntryType;
 
 import com.google.common.base.Strings;
 
+import java.util.Calendar;
+
 public class BibEntryWriter {
 
     private final LatexFieldFormatter fieldFormatter;
@@ -137,16 +139,37 @@ public class BibEntryWriter {
         String field = entry.getField(name);
         // only write field if is is not empty or if empty fields should be included
         // the first condition mirrors mirror behavior of com.jgoodies.common.base.Strings.isNotBlank(str)
+        Calendar c = Calendar.getInstance();
         if (Strings.nullToEmpty(field).trim().isEmpty()) {
             return;
         } else {
-            out.write("  " + getFieldDisplayName(name, indentation));
+            if (name.equals("year")) {
+                int ano = Integer.parseInt(field);
+                if ((ano > +c.get(Calendar.YEAR)) || (ano < 0)) {
+                    out.write(" " + getFieldDisplayName(name, indentation));
+                    out.write("{  }");
+                    out.write(',' + Globals.NEWLINE);
+                }
+                else {
+                    out.write(" " + getFieldDisplayName(name, indentation));
 
-            try {
-                out.write(fieldFormatter.format(field, name));
-                out.write(',' + Globals.NEWLINE);
-            } catch (IOException ex) {
-                throw new IOException("Error in field '" + name + "': " + ex.getMessage());
+                    try {
+                        out.write(fieldFormatter.format(field, name));
+                        out.write(',' + Globals.NEWLINE);
+                    } catch (IOException ex) {
+                        throw new IOException("Error in field '" + name + "': " + ex.getMessage());
+                    }
+                }
+            }
+            else {
+                out.write(" " + getFieldDisplayName(name, indentation));
+
+                try {
+                    out.write(fieldFormatter.format(field, name));
+                    out.write(',' + Globals.NEWLINE);
+                } catch (IOException ex) {
+                    throw new IOException("Error in field '" + name + "': " + ex.getMessage());
+                }
             }
         }
     }
