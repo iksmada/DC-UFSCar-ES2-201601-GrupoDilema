@@ -64,18 +64,22 @@ public class CSVImporter extends ImportFormat {
                 sb.append('\n');
             }
         }
-        //divide a entrada em linhas,
-        String[] lines = sb.toString().split("\n", 2);
+        //divide a entrada em cabeçalho e corpo
+        String[] HeaderBody = sb.toString().split("\n", 2);
+        //divide o corpo em linhas, cada um é uma entrada
+        String[] lines = HeaderBody[1].split("\n");
 
         //a primeira é o cabeçalho indicando os campos, o resto são as entradas.
         //divide o cabeçalho nas virgulas
-        String[] header = lines[0].split(",");
+        String[] header = HeaderBody[0].split(",");
 
         //header[0]=tipo da entrada-- unica exigencia
 
         for (String line : lines) {
             //divide a linha em virgulas, cada uma um campo
-            String[] fields = line.split(",");
+            String[] fields = line.split("^(\"([^\"]*),([^\"]*)\")&&,");
+            System.out.println(line);
+            System.out.println(fields);
 
             BibEntry b = new BibEntry(DEFAULT_BIBTEXENTRY_ID, fields[0]);
 

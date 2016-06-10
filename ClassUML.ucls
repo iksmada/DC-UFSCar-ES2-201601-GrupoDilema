@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.SwitchLeftAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1473" y="-352"/>    
+    <position height="-1" width="-1" x="2073" y="-1265"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.TabListener" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1496" y="-262"/>    
+    <position height="-1" width="-1" x="2034" y="-1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.FieldListener" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1568" y="-199"/>    
+    <position height="-1" width="-1" x="2030" y="-805"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.UndoAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1704" y="-196"/>    
+    <position height="-1" width="-1" x="2042" y="-668"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.AutoLinkAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1831" y="-135"/>    
+    <position height="-1" width="-1" x="2025" y="-567"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.NextEntryAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1945" y="-71"/>    
+    <position height="-1" width="-1" x="2047" y="-471"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -57,16 +57,16 @@
   </class>  
   <class id="7" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="1267" width="272" x="2220" y="-1266"/>    
+    <position height="-1" width="-1" x="2360" y="-713"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <class id="8" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.SwitchRightAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2102" y="-30"/>    
+    <position height="-1" width="-1" x="2040" y="-346"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.TypeLabel" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2244" y="-26"/>    
+    <position height="-1" width="-1" x="2054" y="-160"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.DeleteAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2377" y="-28"/>    
+    <position height="-1" width="-1" x="2733" y="-224"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.PrevEntryAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2511" y="-29"/>    
+    <position height="-1" width="-1" x="2789" y="-353"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -102,7 +102,7 @@
   </class>  
   <class id="12" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.GenerateKeyAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2658" y="-34"/>    
+    <position height="-1" width="-1" x="2801" y="-537"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -111,7 +111,7 @@
   </class>  
   <class id="13" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.SaveDatabaseAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2814" y="-24"/>    
+    <position height="-1" width="-1" x="2808" y="-653"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -120,7 +120,7 @@
   </class>  
   <class id="14" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.CloseAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2973" y="-28"/>    
+    <position height="-1" width="-1" x="2797" y="-841"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -129,7 +129,7 @@
   </class>  
   <class id="15" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.RedoAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3053" y="-95"/>    
+    <position height="-1" width="-1" x="2794" y="-1020"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -138,7 +138,7 @@
   </class>  
   <class id="16" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.TypeButton" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3090" y="-202"/>    
+    <position height="-1" width="-1" x="2790" y="-1170"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -147,7 +147,7 @@
   </class>  
   <class id="17" language="java" name="net.sf.jabref.gui.entryeditor.EntryEditor.StoreFieldAction" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/gui/entryeditor/EntryEditor.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="3115" y="-322"/>    
+    <position height="-1" width="-1" x="2696" y="-1311"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="true"/>      
@@ -156,20 +156,20 @@
   </class>  
   <class id="18" language="java" name="net.sf.jabref.bibtex.BibEntryWriter" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/bibtex/BibEntryWriter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1785" y="-634"/>    
+    <position height="-1" width="-1" x="1575" y="-1196"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <class id="19" language="java" name="net.sf.jabref.importer.fileformat.CSVImporter" project="JabRef" 
     file="/JabRef/src/main/java/net/sf/jabref/importer/fileformat/CSVImporter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2039" y="-626"/>    
+    <position height="-1" width="-1" x="1575" y="-865"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
   <nesting id="20">    
