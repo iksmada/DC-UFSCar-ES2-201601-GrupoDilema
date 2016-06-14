@@ -21,7 +21,7 @@ import net.sf.jabref.model.entry.BibEntry;
 
 public class CSVImporter extends ImportFormat {
 
-    private static final Pattern CSV_PATTERN = Pattern.compile("\"([^\"]*)\"|(?<=,|^)([^,]*)(?:,|$)");
+    private static final Pattern CSV_PATTERN = Pattern.compile("((\"([^\"]*),([^\"]*)\")||([^\"]*),([^\"]*))*");
 
 
     /**
@@ -64,8 +64,24 @@ public class CSVImporter extends ImportFormat {
                 sb.append('\n');
             }
         }
+        //processamento de aspas com virgulas dentro
+
+        //separa nas aspas
+        String[] quote = sb.toString().split("\"");
+        String ready = "";
+        //todos os valores impares da variavel quote serao as strings entre aspas
+        for (int i = 1; i < quote.length; i += 2) {
+            //coloca cerquilha no lugar da virgula
+            quote[i] = quote[i].replace(',', '#');
+            ready += quote[i - 1] + quote[i];
+        }
+        //se tiver um numero par de comprimento tem que pegar o final
+        if ((quote.length % 2) == 1) {
+            ready += quote[quote.length - 1];
+        }
+        System.out.println(ready);
         //divide a entrada em cabeçalho e corpo
-        String[] HeaderBody = sb.toString().split("\n", 2);
+        String[] HeaderBody = ready.split("\n", 2);
         //divide o corpo em linhas, cada um é uma entrada
         String[] lines = HeaderBody[1].split("\n");
 
@@ -77,18 +93,17 @@ public class CSVImporter extends ImportFormat {
 
         for (String line : lines) {
             //divide a linha em virgulas, cada uma um campo
-            String[] fields = line.split("^(\"([^\"]*),([^\"]*)\")&&,");
-            System.out.println(line);
-            System.out.println(fields);
+            String[] fields = line.split(",");
 
             BibEntry b = new BibEntry(DEFAULT_BIBTEXENTRY_ID, fields[0]);
 
 
             for (int i = 1; i < header.length; i++) {
-                b.setField(header[i], fields[i]);
+                b.setField(header[i], fields[i].replace('#', ','));
+                System.out.print(header[i] + "=" + fields[i].replace('#', ',') + ", ");
                 //setOrAppend(b, header[i], fields[i], ", ");
             }
-
+            System.out.println(b);
             bibitems.add(b);
         }
 
