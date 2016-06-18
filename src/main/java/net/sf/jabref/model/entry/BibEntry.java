@@ -298,8 +298,32 @@ public class BibEntry {
         return fields.get(KEY_FIELD);
     }
 
+    public boolean ehLetra(String s) {
+
+        char[] c = s.toCharArray();
+        boolean d = true;
+
+        if (!Character.isLetter(c[0])) {
+            d = false;
+        }
+        return d;
+    }
+
+    public boolean tamanhoValidoBibtexkey(String s) {
+        int tam = s.length();
+        if (tam <= 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void setCiteKey(String newCiteKey) {
-        setField(KEY_FIELD, newCiteKey);
+        // verifica se a bibtexkey segue os critérios de validação
+        if (tamanhoValidoBibtexkey(newCiteKey) && ehLetra(newCiteKey)) {
+            setField(KEY_FIELD, newCiteKey);
+        }
+
     }
 
     public boolean hasCiteKey() {
@@ -335,6 +359,18 @@ public class BibEntry {
 
         if (BibEntry.ID_FIELD.equals(fieldName)) {
             throw new IllegalArgumentException("The field name '" + name + "' is reserved");
+        }
+
+        // pega a data atual do calendario
+        Calendar c = Calendar.getInstance();
+        //ve se o campo a ser alterado é do tipo ano
+        if (fieldName == "year") {
+            //pega somente o valor inteiro da string
+            int ano = Integer.parseInt(value);
+            // se o ano é inválido, apresenta um erro
+            if ((ano > +c.get(Calendar.YEAR)) || (ano < 0)) {
+                throw new IllegalArgumentException("Ano '" + value + "' é inválido");
+            }
         }
 
         changed = true;
