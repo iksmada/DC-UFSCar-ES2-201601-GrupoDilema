@@ -1076,26 +1076,6 @@ public class EntryEditor extends JPanel implements VetoableChangeListener, Entry
             putValue(Action.SHORT_DESCRIPTION, "Store field value");
         }
 
-        public boolean ehLetra(String s) {
-
-            char[] c = s.toCharArray();
-            boolean d = true;
-
-            if (!Character.isLetter(c[0])) {
-                d = false;
-            }
-            return d;
-        }
-
-        public boolean tamanhoValidoBibtexkey(String s) {
-            int tam = s.length();
-            if (tam <= 1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
         @Override
         public void actionPerformed(ActionEvent event) {
             boolean movingAway = movingToDifferentEntry;
@@ -1117,8 +1097,8 @@ public class EntryEditor extends JPanel implements VetoableChangeListener, Entry
 
                 // Make sure the key is legal:
                 String cleaned = LabelPatternUtil.checkLegalKey(newValue);
-                if (((cleaned == null) || cleaned.equals(newValue)) && tamanhoValidoBibtexkey(newValue)
-                        && ehLetra(newValue)) {
+                if (((cleaned == null) || cleaned.equals(newValue)) && entry.tamanhoValidoBibtexkey(newValue)
+                        && entry.ehLetra(newValue)) {
                     textField.setValidBackgroundColor();
                 } else {
                     JOptionPane.showMessageDialog(frame, Localization.lang("Invalid BibTeX key"),
