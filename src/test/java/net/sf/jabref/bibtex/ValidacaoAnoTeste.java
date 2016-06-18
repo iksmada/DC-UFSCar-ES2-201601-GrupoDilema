@@ -38,22 +38,13 @@ public class ValidacaoAnoTeste {
         writer = new BibEntryWriter(new LatexFieldFormatter(), true);
     }
 
-    // teste para o tipo article com data inválida maior que a atual, deve exibir espaço em branco
-    @Test
+    // teste para o tipo article com data inválida maior que a atual, deve exibir um estado de exceção
+    @Test(expected = IllegalArgumentException.class)
     public void testeValidacaoAnoInvalidoMaiorArticle() throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         BibEntry entry = new BibEntry("1234", "article");
         entry.setField("year", "2017");
-
-        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
-
-        String actual = stringWriter.toString();
-
-        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + " year = {  }," + Globals.NEWLINE + "}"
-                + Globals.NEWLINE;
-
-        assertEquals(expected, actual);
     }
 
     //teste para o tipo article com data válida no limite, deve exibir o ano
@@ -74,27 +65,19 @@ public class ValidacaoAnoTeste {
         assertEquals(expected, actual);
     }
 
-    //teste para o tipo article com data inválida menor que o limite, deve exibir espaço em branco
-    @Test
-    public void testeValidacaoAnoLimiteMenorArticle() throws IOException {
+    //teste para o tipo article com data inválida menor que o limite, deve exibir um estado de exceção
+    @Test(expected = IllegalArgumentException.class)
+    public void testeValidacaoAnoInvalidoMenorArticle() throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         BibEntry entry = new BibEntry("1234", "article");
         entry.setField("year", "-1");
 
-        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
-
-        String actual = stringWriter.toString();
-
-        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + " year = {  }," + Globals.NEWLINE + "}"
-                + Globals.NEWLINE;
-
-        assertEquals(expected, actual);
     }
 
     //teste para o tipo article com data válida no limite menor, deve ser exibido o ano informado
     @Test
-    public void testeValidacaoAnoInvalidoMenorArticle() throws IOException {
+    public void testeValidacaoAnoLimiteMenorArticle() throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         BibEntry entry = new BibEntry("1234", "article");
@@ -104,28 +87,20 @@ public class ValidacaoAnoTeste {
 
         String actual = stringWriter.toString();
 
-        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + " year = {0}," + Globals.NEWLINE + "}"
+        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + " year = {0}," + Globals.NEWLINE
+                + "}"
                 + Globals.NEWLINE;
 
         assertEquals(expected, actual);
     }
 
-    // teste para o tipo book com data inválida maior que a atual, deve exibir espaço em branco
-    @Test
+    // teste para o tipo book com data inválida maior que a atual, deve exibir um estado de exceção
+    @Test(expected = IllegalArgumentException.class)
     public void testeValidacaoAnoInvalidoMaiorBook() throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         BibEntry entry = new BibEntry("1234", "book");
         entry.setField("year", "2017");
-
-        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
-
-        String actual = stringWriter.toString();
-
-        String expected = Globals.NEWLINE + "@Book{," + Globals.NEWLINE + " year = {  }," + Globals.NEWLINE + "}"
-                + Globals.NEWLINE;
-
-        assertEquals(expected, actual);
     }
 
     //teste para o tipo article com data válida no limite, deve exibir o ano
@@ -146,27 +121,18 @@ public class ValidacaoAnoTeste {
         assertEquals(expected, actual);
     }
 
-    //teste para o tipo article com data inválida menor que o limite, deve exibir espaço em branco
-    @Test
-    public void testeValidacaoAnoLimiteMenorBook() throws IOException {
+    //teste para o tipo article com data inválida menor que o limite, deve exibir um estado de exceção
+    @Test(expected = IllegalArgumentException.class)
+    public void testeValidacaoAnoInvalidoMenorBook() throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         BibEntry entry = new BibEntry("1234", "book");
         entry.setField("year", "-1");
-
-        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
-
-        String actual = stringWriter.toString();
-
-        String expected = Globals.NEWLINE + "@Book{," + Globals.NEWLINE + " year = {  }," + Globals.NEWLINE + "}"
-                + Globals.NEWLINE;
-
-        assertEquals(expected, actual);
     }
 
     //teste para o tipo article com data válida no limite menor, deve ser exibido o ano informado
     @Test
-    public void testeValidacaoAnoInvalidoMenorBook() throws IOException {
+    public void testeValidacaoAnoLimiteMenorBook() throws IOException {
         StringWriter stringWriter = new StringWriter();
 
         BibEntry entry = new BibEntry("1234", "book");
@@ -181,5 +147,4 @@ public class ValidacaoAnoTeste {
 
         assertEquals(expected, actual);
     }
-
 }
