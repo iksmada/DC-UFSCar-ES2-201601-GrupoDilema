@@ -12,16 +12,16 @@ import net.sf.jabref.importer.OutputPrinter;
 import net.sf.jabref.model.entry.BibEntry;
 
 /**
- * Importer for COPAC format.
+ * Importer for CSV format.
  *
  * Documentation can be found online at:
  *
- * http://copac.ac.uk/faq/#format
+ *
  */
 
 public class CSVImporter extends ImportFormat {
 
-    private static final Pattern CSV_PATTERN = Pattern.compile("((\"([^\"]*),([^\"]*)\")||([^\"]*),([^\"]*))*");
+    private static final Pattern CSV_PATTERN = Pattern.compile("((\"([^\"]*),+([^\"]*)\")||([^\"]*),([^\"]*))\n?");
 
 
     /**
@@ -43,14 +43,25 @@ public class CSVImporter extends ImportFormat {
         BufferedReader in = new BufferedReader(ImportFormatReader.getReaderDefaultEncoding(stream));
 
         String str;
-
+        boolean status = false;
+        int oldpieces = -1, newpieces;
+        String[] aux;
         while ((str = in.readLine()) != null) {
-            if (CSVImporter.CSV_PATTERN.matcher(str).find()) {
-                return true;
+            aux = preProcessamento(new StringBuilder(str)).split(",");
+            newpieces = aux.length;
+            if (oldpieces != -1) {
+                if (((oldpieces != newpieces) && (newpieces > 0)) || !CSVImporter.CSV_PATTERN.matcher(str).find()) {
+                    return false;
+                }
+            } else if (!CSVImporter.CSV_PATTERN.matcher(str).find()) {
+                return false;
             }
-        }
 
-        return false;
+            oldpieces = newpieces;
+            //for now its true
+            status = true;
+        }
+        return status;
     }
 
     @Override
@@ -64,6 +75,41 @@ public class CSVImporter extends ImportFormat {
                 sb.append('\n');
             }
         }
+        //verifica se nao é vazio
+        if (sb.length() > 0) {
+            //processamento de aspas com virgulas dentro
+            String ready = preProcessamento(sb);
+            //divide a entrada em cabeçalho e corpo
+            String[] HeaderBody = ready.split("\n", 2);
+            //divide o corpo em linhas, cada um é uma entrada
+            String[] lines = HeaderBody[1].split("\n");
+
+            //a primeira é o cabeçalho indicando os campos, o resto são as entradas.
+            //divide o cabeçalho nas virgulas
+            String[] header = HeaderBody[0].split(",");
+
+            //header[0]=tipo da entrada-- unica exigencia
+
+            for (String line : lines) {
+                //divide a linha em virgulas, cada uma um campo
+                String[] fields = line.split(",");
+
+                BibEntry b = new BibEntry(DEFAULT_BIBTEXENTRY_ID, fields[0]);
+
+
+                for (int i = 1; i < header.length; i++) {
+                    b.setField(header[i], fields[i].replace('#', ','));
+                    System.out.print(header[i] + "=" + fields[i].replace('#', ',') + ", ");
+                    //setOrAppend(b, header[i], fields[i], ", ");
+                }
+                System.out.println(b);
+                bibitems.add(b);
+            }
+        }
+        return bibitems;
+    }
+
+    private static String preProcessamento(StringBuilder sb) {
         //processamento de aspas com virgulas dentro
 
         //separa nas aspas
@@ -79,35 +125,7 @@ public class CSVImporter extends ImportFormat {
         if ((quote.length % 2) == 1) {
             ready += quote[quote.length - 1];
         }
-        System.out.println(ready);
-        //divide a entrada em cabeçalho e corpo
-        String[] HeaderBody = ready.split("\n", 2);
-        //divide o corpo em linhas, cada um é uma entrada
-        String[] lines = HeaderBody[1].split("\n");
-
-        //a primeira é o cabeçalho indicando os campos, o resto são as entradas.
-        //divide o cabeçalho nas virgulas
-        String[] header = HeaderBody[0].split(",");
-
-        //header[0]=tipo da entrada-- unica exigencia
-
-        for (String line : lines) {
-            //divide a linha em virgulas, cada uma um campo
-            String[] fields = line.split(",");
-
-            BibEntry b = new BibEntry(DEFAULT_BIBTEXENTRY_ID, fields[0]);
-
-
-            for (int i = 1; i < header.length; i++) {
-                b.setField(header[i], fields[i].replace('#', ','));
-                System.out.print(header[i] + "=" + fields[i].replace('#', ',') + ", ");
-                //setOrAppend(b, header[i], fields[i], ", ");
-            }
-            System.out.println(b);
-            bibitems.add(b);
-        }
-
-        return bibitems;
+        return ready;
     }
 
     private static void setOrAppend(BibEntry b, String field, String value, String separator) {

@@ -67,9 +67,11 @@ public class CSVImporterTest {
 
         List<String> list = getTestFiles().stream().filter(n -> !n.startsWith("CSVImporterTest"))
                 .collect(Collectors.toList());
-
+        int i = 0;
+        List<Boolean> respostas = new ArrayList<>();
         for (String str : list) {
             try (InputStream is = CSVImporterTest.class.getResourceAsStream(str)) {
+                respostas.add(importer.isRecognizedFormat(is));
                 Assert.assertFalse(importer.isRecognizedFormat(is));
             }
         }
