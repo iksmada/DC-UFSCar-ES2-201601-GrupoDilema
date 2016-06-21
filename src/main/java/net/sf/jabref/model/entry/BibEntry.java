@@ -43,7 +43,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class BibEntry {
-
     private static final Log LOGGER = LogFactory.getLog(BibEntry.class);
 
     public static final String TYPE_HEADER = "entrytype";
@@ -68,7 +67,6 @@ public class BibEntry {
     * Is set to false, if parts of the entry change
      */
     private boolean changed;
-
 
     public BibEntry() {
         this(IdGenerator.next());
@@ -300,65 +298,18 @@ public class BibEntry {
         return fields.get(KEY_FIELD);
     }
 
-    public boolean ehLetra(String s) {
-
-        char[] c = s.toCharArray();
-        boolean d = true;
-
-        if (!Character.isLetter(c[0])) {
-            d = false;
-        }
-        return d;
-    }
-
-    public boolean tamanhoValidoBibtexkey(String s) {
-        int tam = s.length();
-        if (tam <= 1) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     public void setCiteKey(String newCiteKey) {
-        // verifica se a bibtexkey segue os critérios de validação
-        if (tamanhoValidoBibtexkey(newCiteKey) && ehLetra(newCiteKey)) {
-            setField(KEY_FIELD, newCiteKey);
-        }
-
+        setField(KEY_FIELD, newCiteKey);
     }
 
     public boolean hasCiteKey() {
         return !Strings.isNullOrEmpty(getCiteKey());
     }
 
-    // valida o campo mes
-    public String setMonth(String value) {
-        // são passados todos os meses por extenso para um vetor de strings
-        String mes[] = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
-                "Outubro", "Novembro", "Dezembro"};
-        try {
-            // já vê se tem um número inteiro no valor passado pela função
-            int mesNumerico = Integer.parseInt(value);
-            // se for inteiro e está entre 1 e 12, é retornado o mês por extenso
-            if ((mesNumerico > 0) && (mesNumerico <= 12)) {
-                return mes[mesNumerico - 1];
-                // caso o número inteiro seja maior ou menor que o intervalo, é retornada uma string null
-            } else {
-                return null;
-            }
-            // se não foi passado um número inteiro, também é retornada uma string null
-        } catch (NumberFormatException ex) {
-            return null;
-        }
-
-    }
-
     /**
      * Sets a number of fields simultaneously. The given HashMap contains field
      * names as keys, each mapped to the value to set.
      */
-
     public void setField(Map<String, String> fields) {
         Objects.requireNonNull(fields, "fields must not be null");
 
@@ -384,26 +335,6 @@ public class BibEntry {
 
         if (BibEntry.ID_FIELD.equals(fieldName)) {
             throw new IllegalArgumentException("The field name '" + name + "' is reserved");
-        }
-
-        // pega a data atual do calendario
-        Calendar c = Calendar.getInstance();
-        //ve se o campo a ser alterado é do tipo ano
-        if (fieldName == "year") {
-            //pega somente o valor inteiro da string
-            int ano = Integer.parseInt(value);
-            // se o ano é inválido, apresenta um erro
-            if ((ano > +c.get(Calendar.YEAR)) || (ano < 0)) {
-                throw new IllegalArgumentException("Ano '" + value + "' é inválido");
-            }
-            // verifica se o campo a ser alterado é o de mês
-        } else if (fieldName == "month") {
-            //se for, é chamado a função para validar
-            value = setMonth(value);
-            if (value == null) {
-                //se o resultado do setMonth for uma string null, é mostrado um erro na tela
-                throw new IllegalArgumentException("O mês informado é inválido, insira o número do mês desejado.");
-            }
         }
 
         changed = true;
@@ -585,6 +516,7 @@ public class BibEntry {
         }
         return year;
     }
+
 
     public void setParsedSerialization(String parsedSerialization) {
         changed = false;

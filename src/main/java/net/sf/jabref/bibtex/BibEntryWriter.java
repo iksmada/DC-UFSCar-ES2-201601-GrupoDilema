@@ -139,21 +139,18 @@ public class BibEntryWriter {
         String field = entry.getField(name);
         // only write field if is is not empty or if empty fields should be included
         // the first condition mirrors mirror behavior of com.jgoodies.common.base.Strings.isNotBlank(str)
-        // calendario pega a data atual
         Calendar c = Calendar.getInstance();
         if (Strings.nullToEmpty(field).trim().isEmpty()) {
             return;
         } else {
             if (name.equals("year")) {
                 int ano = Integer.parseInt(field);
-                //se a data atual é invalida, é exibido um espaço em branco na saída
                 if ((ano > +c.get(Calendar.YEAR)) || (ano < 0)) {
                     out.write(" " + getFieldDisplayName(name, indentation));
                     out.write("{  }");
                     out.write(',' + Globals.NEWLINE);
                 }
                 else {
-                    //caso seja válido, é exibido o ano informado
                     out.write(" " + getFieldDisplayName(name, indentation));
 
                     try {
