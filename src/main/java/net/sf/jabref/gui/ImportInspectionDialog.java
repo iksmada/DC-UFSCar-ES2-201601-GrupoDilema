@@ -656,6 +656,19 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                     }
                 }
             }
+            //A partir daqui, quer dizer que foi apertado OK, então os items duplicados serão adicionados!!
+            CheckBoxMessage cbm2 = new CheckBoxMessage(
+                    Localization
+                            .lang("Choose 'Yes' to import the duplicates in the current database or 'No' to create a new one with the duplicated keys. "),
+                    Localization.lang("Disable this confirmation dialog"), false);
+            int answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this, cbm2,
+                    Localization.lang("Duplicates management"), JOptionPane.YES_NO_OPTION);
+            if (cbm2.isSelected()) {
+                Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
+            }
+            if (answer == JOptionPane.NO_OPTION) {
+                //criar nova base de dados e inserir as duplicatas lá (aproveitar funções que o fazem)
+            }
 
             // The compund undo action used to contain all changes made by this
             // dialog.
@@ -1038,6 +1051,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                     diag.setLocationRelativeTo(ImportInspectionDialog.this);
                     diag.setVisible(true);
                     ImportInspectionDialog.this.toFront();
+
                     if (diag.getSelected() == DuplicateResolverResult.KEEP_UPPER) {
                         // Remove old entry. Or... add it to a list of entries
                         // to be deleted. We only delete
@@ -1057,6 +1071,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                         entries.getReadWriteLock().writeLock().unlock();
                     } else if (diag.getSelected() == DuplicateResolverResult.KEEP_BOTH) {
                         // Do nothing.
+                        JOptionPane.showMessageDialog(null, "entrei!", "IMPORTANTE!" , JOptionPane.INFORMATION_MESSAGE);
                         entries.getReadWriteLock().writeLock().lock();
                         first.setGroupHit(false);
                         entries.getReadWriteLock().writeLock().unlock();
