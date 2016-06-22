@@ -1,4 +1,4 @@
-ckage net.sf.jabref.bibtex;
+package net.sf.jabref.bibtex;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -102,6 +102,75 @@ public class ValidacaoBibtexKeyTeste {
         String actual = stringWriter.toString();
 
         String expected = Globals.NEWLINE + "@Book{" + entry.getCiteKey() + ',' + Globals.NEWLINE + "}"
+                + Globals.NEWLINE;
+
+        assertEquals(expected, actual);
+    }
+
+    // teste de uma bibtexkey invalida somente com números, a saida mostrada não insere a key
+    @Test
+    public void testeBibtexkeyInvalidaNumericaArticle() throws IOException {
+        StringWriter stringWriter = new StringWriter();
+
+        BibEntry entry = new BibEntry("1234", "article");
+        entry.setCiteKey("123567");
+
+        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
+
+        String actual = stringWriter.toString();
+
+        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + "}" + Globals.NEWLINE;
+
+        assertEquals(expected, actual);
+    }
+
+    //teste de bibtexkey inválida com só 1 caracter, a saída não deve mostrar a key
+    @Test
+    public void testeBibtexkeyInvalidaTamanhoArticle() throws IOException {
+        StringWriter stringWriter = new StringWriter();
+
+        BibEntry entry = new BibEntry("1234", "article");
+        entry.setCiteKey("a");
+
+        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
+
+        String actual = stringWriter.toString();
+
+        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + "}" + Globals.NEWLINE;
+
+        assertEquals(expected, actual);
+    }
+
+    //teste de bibtexkey invalida com numeral no início, a saída não deve mostrar a key
+    @Test
+    public void testeBibtexkeyInvalidaNumeralInicioArticle() throws IOException {
+        StringWriter stringWriter = new StringWriter();
+
+        BibEntry entry = new BibEntry("1234", "article");
+        entry.setCiteKey("1a");
+
+        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
+
+        String actual = stringWriter.toString();
+
+        String expected = Globals.NEWLINE + "@Article{," + Globals.NEWLINE + "}" + Globals.NEWLINE;
+
+        assertEquals(expected, actual);
+    }
+
+    // teste de uma bibtexkey válida
+    @Test
+    public void testeBibtexkeyValidaArticle() throws IOException {
+        StringWriter stringWriter = new StringWriter();
+
+        BibEntry entry = new BibEntry("1234", "article");
+        entry.setCiteKey("a2E1");
+
+        writer.write(entry, stringWriter, BibDatabaseMode.BIBTEX);
+
+        String actual = stringWriter.toString();
+
+        String expected = Globals.NEWLINE + "@Article{" + entry.getCiteKey() + ',' + Globals.NEWLINE + "}"
                 + Globals.NEWLINE;
 
         assertEquals(expected, actual);
