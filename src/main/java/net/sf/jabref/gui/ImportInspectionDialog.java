@@ -624,6 +624,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
         @Override
         public void actionPerformed(ActionEvent event) {
 
+            int answer = JOptionPane.NO_OPTION;
             // First check if we are supposed to warn about duplicates. If so,
             // see if there
             // are unresolved duplicates, and warn if yes.
@@ -644,7 +645,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                         CheckBoxMessage cbm = new CheckBoxMessage(
                                 Localization.lang("There are possible duplicates (marked with an icon) that haven't been resolved. Continue?"),
                                 Localization.lang("Disable this confirmation dialog"), false);
-                        int answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this,
+                        answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this,
                                 cbm, Localization.lang("Duplicates found"), JOptionPane.YES_NO_OPTION);
                         if (cbm.isSelected()) {
                             Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
@@ -655,20 +656,10 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                         break;
                     }
                 }
+                //A partir daqui, quer dizer que foi apertado OK, então os items duplicados serão adicionados!!
             }
-            //A partir daqui, quer dizer que foi apertado OK, então os items duplicados serão adicionados!!
-            CheckBoxMessage cbm2 = new CheckBoxMessage(
-                    Localization
-                            .lang("Choose 'Yes' to import the duplicates in the current database or 'No' to create a new one with the duplicated keys. "),
-                    Localization.lang("Disable this confirmation dialog"), false);
-            int answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this, cbm2,
-                    Localization.lang("Duplicates management"), JOptionPane.YES_NO_OPTION);
-            if (cbm2.isSelected()) {
-                Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
-            }
-            if (answer == JOptionPane.NO_OPTION) {
-                //criar nova base de dados e inserir as duplicatas lá (aproveitar funções que o fazem)
-            }
+
+
 
             // The compund undo action used to contain all changes made by this
             // dialog.
@@ -689,10 +680,39 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
 
             final List<BibEntry> selected = getSelectedEntries();
 
-            if (!selected.isEmpty()) {
-                addSelectedEntries(ce, selected);
-            }
+            if (answer == JOptionPane.YES_OPTION)//se a resposta do ultimo aviso for sim, então mostra segundo aviso
+            {
+                CheckBoxMessage cbm2 = new CheckBoxMessage(
+                        Localization
+                                .lang("Choose 'Yes' to import the duplicates in the current database or 'No' to create a new one with the duplicated keys. "),
+                        Localization.lang("Disable this confirmation dialog"), false);
+                answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this, cbm2,
+                        Localization.lang("Duplicates management"), JOptionPane.YES_NO_OPTION);
 
+                if (cbm2.isSelected()) {
+                    Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
+                }
+                if (answer == JOptionPane.NO_OPTION) {
+
+                    Defaults defaults = new Defaults(BibDatabaseMode
+                            .fromPreference(Globals.prefs.getBoolean(JabRefPreferences.BIBLATEX_DEFAULT_MODE)));
+                    frame.addTab(new BibDatabaseContext(defaults), Globals.prefs.getDefaultEncoding(), true);
+                    BasePanel newpanel = new BasePanel(frame, new BibDatabaseContext(defaults),
+                            Globals.prefs.getDefaultEncoding());
+
+                    //adicionar apenas os valores selecionados
+                    for (BibEntry ent : entries) {
+                        newpanel.getDatabase().insertEntry(ent);
+                        //TODO: fazer aparecer as informações do newpanel na nova tab do frame e inserir no database (não está inserindo)
+
+                    }
+                }
+                else { //se for YES YES, mantém a duplicata no banco corrente
+                    if (!selected.isEmpty()) {
+                        addSelectedEntries(ce, selected);
+                    }
+                }
+            }
             dispose();
             SwingUtilities.invokeLater(() -> updateGUI(selected.size()));
         }
