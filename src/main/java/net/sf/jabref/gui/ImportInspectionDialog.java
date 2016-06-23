@@ -625,6 +625,9 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
         public void actionPerformed(ActionEvent event) {
 
             int answer = JOptionPane.NO_OPTION;
+            //boleano que serve para verificar se os itens selecionados ja foram adicionados em
+            //alguma base
+            boolean alreadyAdded = false;
             // First check if we are supposed to warn about duplicates. If so,
             // see if there
             // are unresolved duplicates, and warn if yes.
@@ -692,29 +695,37 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                 if (cbm2.isSelected()) {
                     Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
                 }
-                if (answer == JOptionPane.NO_OPTION) {
-
+                if (answer == JOptionPane.NO_OPTION) { //quer fazer nova base de dados e adicionar a duplicata lá
+                    //Definição dos padrões para o BibDatabaseMode
                     Defaults defaults = new Defaults(BibDatabaseMode
                             .fromPreference(Globals.prefs.getBoolean(JabRefPreferences.BIBLATEX_DEFAULT_MODE)));
-                    frame.addTab(new BibDatabaseContext(defaults), Globals.prefs.getDefaultEncoding(), true);
-                    BasePanel newpanel = new BasePanel(frame, new BibDatabaseContext(defaults),
+
+                    //Criação de um novo DatabaseContext
+                    BibDatabaseContext bibDB = new BibDatabaseContext(defaults);
+
+                    //Criação de um novo BasePanel utilizando do DatabaseContext criado para armazenamento temporário desse Context e
+                    //integração com o frame corrente
+                    BasePanel newpanel = new BasePanel(frame, bibDB,
                             Globals.prefs.getDefaultEncoding());
+                    //Adição de uma nova tab no frame corrente com o bibDB
+                    frame.addTab(bibDB, Globals.prefs.getDefaultEncoding(), true);
 
-                    //adicionar apenas os valores selecionados
-                    for (BibEntry ent : entries) {
+                    //adicionar apenas os valores selecionados ao newpanel (associado à tab e ao bibDB)
+                    for (BibEntry ent : selected) {
                         newpanel.getDatabase().insertEntry(ent);
-                        //TODO: fazer aparecer as informações do newpanel na nova tab do frame e inserir no database (não está inserindo)
+                    }
+                    //ja adicionou no novo database
+                    alreadyAdded = true;
+                }
 
-                    }
-                }
-                else { //se for YES YES, mantém a duplicata no banco corrente
-                    if (!selected.isEmpty()) {
-                        addSelectedEntries(ce, selected);
-                    }
-                }
+            }
+            //Mantém a duplicata independente do banco se não tiver sido adicionada
+            if (!selected.isEmpty() && !alreadyAdded) {
+                addSelectedEntries(ce, selected);
             }
             dispose();
             SwingUtilities.invokeLater(() -> updateGUI(selected.size()));
+            return;
         }
 
         private void updateGUI(int entryCount) {
