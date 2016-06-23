@@ -128,12 +128,4 @@ public class CSVImporter extends ImportFormat {
         return ready;
     }
 
-    private static void setOrAppend(BibEntry b, String field, String value, String separator) {
-        if (b.hasField(field)) {
-            b.setField(field, b.getField(field) + separator + value);
-        } else {
-            b.setField(field, value);
-        }
-    }
-
 }
