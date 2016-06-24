@@ -3,12 +3,10 @@
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
-
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -519,7 +517,8 @@ public class EntryEditor extends JPanel implements VetoableChangeListener, Entry
         } else if (fieldExtras.contains(FieldProperties.YES_NO)) {
             return FieldExtraComponents.getYesNoExtraComponent(editor, this);
         } else if (fieldExtras.contains(FieldProperties.MONTH)) {
-            return FieldExtraComponents.getMonthExtraComponent(editor, this, frame.getCurrentBasePanel().getBibDatabaseContext().getMode());
+            return FieldExtraComponents.getMonthExtraComponent(editor, this,
+                    frame.getCurrentBasePanel().getBibDatabaseContext().getMode());
         } else if (fieldExtras.contains(FieldProperties.GENDER)) {
             return FieldExtraComponents.getGenderExtraComponent(editor, this);
         } else if (fieldExtras.contains(FieldProperties.EDITOR_TYPE)) {
@@ -1076,26 +1075,6 @@ public class EntryEditor extends JPanel implements VetoableChangeListener, Entry
             putValue(Action.SHORT_DESCRIPTION, "Store field value");
         }
 
-        public boolean ehLetra(String s) {
-
-            char[] c = s.toCharArray();
-            boolean d = true;
-
-            if (!Character.isLetter(c[0])) {
-                d = false;
-            }
-            return d;
-        }
-
-        public boolean tamanhoValidoBibtexkey(String s) {
-            int tam = s.length();
-            if (tam <= 1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
         @Override
         public void actionPerformed(ActionEvent event) {
             boolean movingAway = movingToDifferentEntry;
@@ -1117,8 +1096,8 @@ public class EntryEditor extends JPanel implements VetoableChangeListener, Entry
 
                 // Make sure the key is legal:
                 String cleaned = LabelPatternUtil.checkLegalKey(newValue);
-                if (((cleaned == null) || cleaned.equals(newValue)) && tamanhoValidoBibtexkey(newValue)
-                        && ehLetra(newValue)) {
+                if (((cleaned == null) || cleaned.equals(newValue)) && entry.tamanhoValidoBibtexkey(newValue)
+                        && entry.ehLetra(newValue)) {
                     textField.setValidBackgroundColor();
                 } else {
                     JOptionPane.showMessageDialog(frame, Localization.lang("Invalid BibTeX key"),
