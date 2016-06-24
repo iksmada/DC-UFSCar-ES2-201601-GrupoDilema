@@ -624,6 +624,10 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
         @Override
         public void actionPerformed(ActionEvent event) {
 
+            int answer = JOptionPane.NO_OPTION;
+            //boleano que serve para verificar se os itens selecionados ja foram adicionados em
+            //alguma base
+            boolean alreadyAdded = false;
             // First check if we are supposed to warn about duplicates. If so,
             // see if there
             // are unresolved duplicates, and warn if yes.
@@ -644,7 +648,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                         CheckBoxMessage cbm = new CheckBoxMessage(
                                 Localization.lang("There are possible duplicates (marked with an icon) that haven't been resolved. Continue?"),
                                 Localization.lang("Disable this confirmation dialog"), false);
-                        int answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this,
+                        answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this,
                                 cbm, Localization.lang("Duplicates found"), JOptionPane.YES_NO_OPTION);
                         if (cbm.isSelected()) {
                             Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
@@ -655,7 +659,10 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                         break;
                     }
                 }
+                //A partir daqui, quer dizer que foi apertado OK, então os items duplicados serão adicionados!!
             }
+
+
 
             // The compund undo action used to contain all changes made by this
             // dialog.
@@ -676,12 +683,49 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
 
             final List<BibEntry> selected = getSelectedEntries();
 
-            if (!selected.isEmpty()) {
+            if (answer == JOptionPane.YES_OPTION)//se a resposta do ultimo aviso for sim, então mostra segundo aviso
+            {
+                CheckBoxMessage cbm2 = new CheckBoxMessage(
+                        Localization
+                                .lang("Choose 'Yes' to import the duplicates in the current database or 'No' to create a new one with the duplicated keys. "),
+                        Localization.lang("Disable this confirmation dialog"), false);
+                answer = JOptionPane.showConfirmDialog(ImportInspectionDialog.this, cbm2,
+                        Localization.lang("Duplicates management"), JOptionPane.YES_NO_OPTION);
+
+                if (cbm2.isSelected()) {
+                    Globals.prefs.putBoolean(JabRefPreferences.WARN_ABOUT_DUPLICATES_IN_INSPECTION, false);
+                }
+                if (answer == JOptionPane.NO_OPTION) { //quer fazer nova base de dados e adicionar a duplicata lá
+                    //Definição dos padrões para o BibDatabaseMode
+                    Defaults defaults = new Defaults(BibDatabaseMode
+                            .fromPreference(Globals.prefs.getBoolean(JabRefPreferences.BIBLATEX_DEFAULT_MODE)));
+
+                    //Criação de um novo DatabaseContext
+                    BibDatabaseContext bibDB = new BibDatabaseContext(defaults);
+
+                    //Criação de um novo BasePanel utilizando do DatabaseContext criado para armazenamento temporário desse Context e
+                    //integração com o frame corrente
+                    BasePanel newpanel = new BasePanel(frame, bibDB,
+                            Globals.prefs.getDefaultEncoding());
+                    //Adição de uma nova tab no frame corrente com o bibDB
+                    frame.addTab(bibDB, Globals.prefs.getDefaultEncoding(), true);
+
+                    //adicionar apenas os valores selecionados ao newpanel (associado à tab e ao bibDB)
+                    for (BibEntry ent : selected) {
+                        newpanel.getDatabase().insertEntry(ent);
+                    }
+                    //ja adicionou no novo database
+                    alreadyAdded = true;
+                }
+
+            }
+            //Mantém a duplicata independente do banco se não tiver sido adicionada
+            if (!selected.isEmpty() && !alreadyAdded) {
                 addSelectedEntries(ce, selected);
             }
-
             dispose();
             SwingUtilities.invokeLater(() -> updateGUI(selected.size()));
+            return;
         }
 
         private void updateGUI(int entryCount) {
@@ -1038,6 +1082,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                     diag.setLocationRelativeTo(ImportInspectionDialog.this);
                     diag.setVisible(true);
                     ImportInspectionDialog.this.toFront();
+
                     if (diag.getSelected() == DuplicateResolverResult.KEEP_UPPER) {
                         // Remove old entry. Or... add it to a list of entries
                         // to be deleted. We only delete
@@ -1057,6 +1102,7 @@ public class ImportInspectionDialog extends JDialog implements ImportInspector, 
                         entries.getReadWriteLock().writeLock().unlock();
                     } else if (diag.getSelected() == DuplicateResolverResult.KEEP_BOTH) {
                         // Do nothing.
+                        JOptionPane.showMessageDialog(null, "entrei!", "IMPORTANTE!" , JOptionPane.INFORMATION_MESSAGE);
                         entries.getReadWriteLock().writeLock().lock();
                         first.setGroupHit(false);
                         entries.getReadWriteLock().writeLock().unlock();
