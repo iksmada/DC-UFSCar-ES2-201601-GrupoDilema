@@ -105,7 +105,6 @@ public class FieldExtraComponents {
                 }
             }
         });
-
         controls.add(button, BorderLayout.SOUTH);
         return Optional.of(controls);
     }
@@ -273,12 +272,9 @@ public class FieldExtraComponents {
         JComboBox<String> month = new JComboBox<>(options);
         month.addActionListener(actionEvent -> {
             int monthnumber = month.getSelectedIndex();
+            // retorna o valor do mes desejado
             if (monthnumber >= 1) {
-                if (type == BibDatabaseMode.BIBLATEX) {
-                    fieldEditor.setText(String.valueOf(monthnumber));
-                } else {
-                    fieldEditor.setText("#" + (MonthUtil.getMonthByNumber(monthnumber).bibtexFormat) + "#");
-                }
+                fieldEditor.setText(String.valueOf(monthnumber));
             } else {
                 fieldEditor.setText("");
             }
